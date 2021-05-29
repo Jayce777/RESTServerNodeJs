@@ -2,7 +2,6 @@
 require('dotenv').config();
 const express = require('express');
 
-
 class Server{
 
     constructor(){
@@ -58,7 +57,7 @@ class Server{
     listen(){
         
         this.app.listen(this.port, () => {
-            console.log(`REST Server esuchando en el puerto: ${this.port}`);
+            console.log(`REST Server esuchando en puerto: ${this.port}`);
         });
     }
 }
