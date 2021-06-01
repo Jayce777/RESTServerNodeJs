@@ -1,15 +1,23 @@
 
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+
+//rutas
+const routerusuarios=require('../routes/usuarios.routes');
 
 class Server{
 
     constructor(){
         this.app= express();
         this.port=process.env.PORT;
-        
+        this.usuariospath='/api/usuarios';
+
         //Middlewares
         this.middlewarepublic();
+
+
+        
         //dispara las rutas
         this.routes();
 
@@ -19,38 +27,16 @@ class Server{
     middlewarepublic(){
 
         this.app.use(express.static('public'));
+
+        this.app.use(cors());
+
+        this.app.use(express.json());
     }
 
     //funciones para las rutas
     routes(){
 
-        this.app.get('/api', (req, res)=> {
-            res.json({
-                id:1,
-                estado:'GET'
-            });
-        });
-
-        this.app.post('/api', (req, res)=> {
-            res.json({
-                id:1,
-                estado:'POST'
-            });
-        });
-
-        this.app.put('/api', (req, res)=> {
-            res.json({
-                id:1,
-                estado:'PUT'
-            });
-        });
-
-        this.app.delete('/api', (req, res)=> {
-            res.json({
-                id:1,
-                estado:'DELETE'
-            });
-        });
+       this.app.use(this.usuariospath,routerusuarios);
           
     }
 
