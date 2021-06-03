@@ -16,12 +16,9 @@ class Server{
         //Middlewares
         this.middlewarepublic();
 
-
-        
         //dispara las rutas
         this.routes();
-
-       
+  
     }
 
     middlewarepublic(){
