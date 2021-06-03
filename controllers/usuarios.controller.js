@@ -15,8 +15,8 @@ const UsuariosGet=(req=request, res=response)=> {
 const UsuariosPost= (req, res=response)=> {
 
     const {nombre,edad}=req.body
+    //console.log({nombre});
     res.json({
-        id:1,
         estado:'POST - Controlador',
         nombre,
         edad
