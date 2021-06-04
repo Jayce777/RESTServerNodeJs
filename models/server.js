@@ -2,6 +2,9 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const{
+   DBConnectionMongo
+}=require('../database/config.db');
 
 //rutas
 const routerusuarios=require('../routes/usuarios.routes');
@@ -12,6 +15,9 @@ class Server{
         this.app= express();
         this.port=process.env.PORT;
         this.usuariospath='/api/usuarios';
+
+        //Conexiones a base de datos
+        this.conexionDDMongo();
 
         //Middlewares
         this.middlewarepublic();
@@ -28,6 +34,12 @@ class Server{
         this.app.use(cors());
 
         this.app.use(express.json());
+    }
+
+    //Conexión con mongoDB Atlas
+    async conexionDDMongo(){
+
+        await DBConnectionMongo();
     }
 
     //funciones para las rutas
