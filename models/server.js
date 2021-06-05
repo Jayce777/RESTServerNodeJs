@@ -3,7 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const{
-   DBConnectionMongo
+   DBConnectionMongo,
+   DBConnectionPostgreSQL
 }=require('../database/config.db');
 
 //rutas
@@ -18,6 +19,7 @@ class Server{
 
         //Conexiones a base de datos
         this.conexionDDMongo();
+        this.conexionDBPostgreSQL();
 
         //Middlewares
         this.middlewarepublic();
@@ -40,6 +42,11 @@ class Server{
     async conexionDDMongo(){
 
         await DBConnectionMongo();
+
+    }
+    async conexionDBPostgreSQL(){
+
+        await DBConnectionPostgreSQL();
     }
 
     //funciones para las rutas
