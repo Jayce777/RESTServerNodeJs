@@ -2,6 +2,16 @@ const mongoose= require('mongoose');
 const { Client } = require('pg');
 
 
+const configpg={
+
+    user: process.env.USERPOSTGRE,
+    host: '',
+    database: process.env.POSTGRE_CON,
+    password: process.env.PASSPOSTGRE,
+    port: process.env.PORTPOSTGRESQL
+
+};
+
 const DBConnectionMongo=async()=>{
 
     try {
@@ -29,22 +39,16 @@ const DBConnectionPostgreSQL=async()=>{
 
     try {
 
-        const connectionData = {
-            user: process.env.USERPOSTGRE,
-            host: '',
-            database: process.env.POSTGRE_CON,
-            password: process.env.PASSPOSTGRE,
-            port: process.env.PORTPOSTGRESQL,
-          }
-
-        const client = new Client(connectionData);
-
-        await client.connect();
-        console.log('Conectado a DB PostgreSQL!');
+         const client = new Client(configpg);
+         await client.connect();
+         
+          console.log('Conectado a DB PostgreSQL!');
         
+            
     } catch (error) {
         console.log({error});
        // throw new Error('Error en DB PostgreSQL');
+           
     }
 
 };

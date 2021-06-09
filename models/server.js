@@ -46,7 +46,9 @@ class Server{
     }
     async conexionDBPostgreSQL(){
 
-        await DBConnectionPostgreSQL();
+      await DBConnectionPostgreSQL();
+      
+      
     }
 
     //funciones para las rutas
