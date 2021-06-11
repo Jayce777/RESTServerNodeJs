@@ -19,16 +19,6 @@ const UsuariosPost= async(req, res=response)=> {
     
     const {nombre,correo,contrasena,rol}=req.body
     const usuario=new Usuario( {nombre,correo,contrasena,rol});
-
-    const existemail= await Usuario.findOne({correo});
-   // console.log(existemail);    
-    if(existemail){
-        // retona un status de error
-        return res.status(400).json({
-            message:"El correo ingresado ya está registrado"
-        });
-
-    }
     //verificar si el correo existe
     //encriptar contraseña
     const salt=bcryptjs.genSaltSync(10);
@@ -42,13 +32,21 @@ const UsuariosPost= async(req, res=response)=> {
     });
 }
 
-const UsuariosPut=  (req, res=response)=> {
+const UsuariosPut= async (req, res=response)=> {
 
     const id=req.params.id;
+    const {_id,google,correo,contrasena,...restbody}=req.body;
+
+    if(contrasena){
+        const salt=bcryptjs.genSaltSync(10);
+        restbody.contrasena = bcryptjs.hashSync(contrasena, salt);
+    }
+
+    const usuarioUpdate=await Usuario.findByIdAndUpdate(id,restbody);
 
     res.json({
         id,
-        estado:'PUT - Controlador'
+       usuarioUpdate
     });
 }
 

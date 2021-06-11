@@ -1,11 +1,15 @@
 const {Router} =require('express');
 const { check } = require('express-validator');
-const Role=require('../models/role');
 const {ValidaCampos}=require('../middlewares/validar_campos');
+
+const { 
+    RoleExiste,
+    ExisteEmail,
+    ExisteUsuarioXId
+} = require('../helpers/custom-validators');
 
 
 const router=Router();
-
 
 const {
     UsuariosGet,
@@ -19,24 +23,24 @@ router.get('/', UsuariosGet);
 
 router.post('/',[
     check('nombre','El nombre es obligatorio').not().isEmpty(),
-    check('contrasena','La contraseña debe contener mínimo 6 carateres').isLength({min:7}),
+    check('contrasena','La contraseña debe contener mínimo 7 carateres').isLength({min:7}),
     check('correo','El correo ingresado no es válido').isEmail(),
+    check('correo').custom(ExisteEmail),
    // check('rol','El rol no es válido').isIn(['ADMINISTRADOR','USUARIO']),
-   check('rol').custom( async(rol='')=>{
-
-    const existerol= await Role.findOne({rol});
-  //  console.log(rol);
-    if( !existerol){
-        throw new Error(`El rol ${rol} no existe`)
-    }
-
-   }),
+   check('rol').custom(RoleExiste),
     ValidaCampos
 
 ],UsuariosPost);
 
 
-router.put('/:id',UsuariosPut);
+router.put('/:id',[
+    check('id','El id no es válido').isMongoId(),
+    check('id').custom(ExisteUsuarioXId),
+   check('contrasena','La contraseña debe contener mínimo 7 carateres').isLength({min:7}),
+    check('rol').custom(RoleExiste),
+    ValidaCampos
+
+],UsuariosPut);
 
 router.delete('/',UsuariosDelete);
 

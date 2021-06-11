@@ -37,5 +37,12 @@ const UsuarioSchema=Schema({
 
 });
 
+//debe ser una función normal, no una función de flecha
+UsuarioSchema.methods.toJSON=function(){
+
+    const{__v,contrasena,...usuario}=this.toObject();
+
+    return usuario;
+}
 
 module.exports=model('Usuario',UsuarioSchema);
