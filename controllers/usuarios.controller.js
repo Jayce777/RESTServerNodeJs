@@ -4,14 +4,20 @@ const bcryptjs=require('bcryptjs');
 
 const Usuario=require('../models/usuario');
 
-const UsuariosGet=(req=request, res=response)=> {
+const UsuariosGet=async(req=request, res=response)=> {
     
-    const {apikey,tel='Teléfono vacío'}=req.query;
+    const {limit=5,start=0}=req.query;
+    const queryestado={estado:true};
+
+   const [total,usuarios]=await Promise.all([
+    Usuario.countDocuments(queryestado),
+    Usuario.find(queryestado)
+    .skip(Number(start))
+    .limit(Number(limit))
+   ]);
     res.json({
-        id:1,
-        estado:'GET - Controlador',
-        apikey,
-        tel
+        total,
+        usuarios
     });
 }
 
@@ -44,17 +50,22 @@ const UsuariosPut= async (req, res=response)=> {
 
     const usuarioUpdate=await Usuario.findByIdAndUpdate(id,restbody);
 
-    res.json({
-        id,
+    res.json(
+       
        usuarioUpdate
-    });
+    );
 }
 
-const UsuariosDelete=  (req,  res=response)=> {
-    res.json({
-        id:1,
-        estado:'DELETE  - Controlador'
-    });
+const UsuariosDelete=  async(req,res=response)=> {
+
+    const{id}=req.params;
+    //Borrar fisicamente
+    //const usuario=await Usuario.findByIdAndDelete(id);
+    const usuario=await Usuario.findByIdAndUpdate(id,{estado:false});
+
+    res.json(
+       usuario
+    );
 }
 
 
