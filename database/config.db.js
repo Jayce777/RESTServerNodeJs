@@ -1,5 +1,5 @@
 const mongoose= require('mongoose');
-const { Client } = require('pg');
+//const { Client } = require('pg');
 
 
 /*const configpg={
