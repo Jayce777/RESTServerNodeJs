@@ -2,7 +2,7 @@ const mongoose= require('mongoose');
 const { Client } = require('pg');
 
 
-const configpg={
+/*const configpg={
 
     user: process.env.USERPOSTGRE,
     host: '',
@@ -10,7 +10,7 @@ const configpg={
     password: process.env.PASSPOSTGRE,
     port: process.env.PORTPOSTGRESQL
 
-};
+};*/
 
 const DBConnectionMongo=async()=>{
 
@@ -35,7 +35,7 @@ const DBConnectionMongo=async()=>{
 
 
 
-const DBConnectionPostgreSQL=async()=>{
+/*const DBConnectionPostgreSQL=async()=>{
 
     try {
 
@@ -51,11 +51,11 @@ const DBConnectionPostgreSQL=async()=>{
            
     }
 
-};
+};*/
 
 
 
 module.exports={
     DBConnectionMongo,
-    DBConnectionPostgreSQL
+  //  DBConnectionPostgreSQL
 }

@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const{
    DBConnectionMongo,
-   DBConnectionPostgreSQL
+ //  DBConnectionPostgreSQL
 }=require('../database/config.db');
 
 //rutas
@@ -44,12 +44,12 @@ class Server{
         await DBConnectionMongo();
 
     }
-    async conexionDBPostgreSQL(){
+ /*   async conexionDBPostgreSQL(){
 
       await DBConnectionPostgreSQL();
       
       
-    }
+    }*/
 
     //funciones para las rutas
     routes(){
