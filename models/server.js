@@ -19,7 +19,7 @@ class Server{
 
         //Conexiones a base de datos
         this.conexionDDMongo();
-        this.conexionDBPostgreSQL();
+        //this.conexionDBPostgreSQL();
 
         //Middlewares
         this.middlewarepublic();
