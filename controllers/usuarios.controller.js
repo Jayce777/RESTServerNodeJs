@@ -62,7 +62,6 @@ const UsuariosDelete=  async(req,res=response)=> {
     //Borrar fisicamente
     //const usuario=await Usuario.findByIdAndDelete(id);
     const usuario=await Usuario.findByIdAndUpdate(id,{estado:false});
-
     res.json(
        usuario
     );
