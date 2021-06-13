@@ -9,6 +9,7 @@ const{
 
 //rutas
 const routerusuarios=require('../routes/usuarios.routes');
+const routerauth=require('../routes/auth.routes');
 
 class Server{
 
@@ -16,6 +17,7 @@ class Server{
         this.app= express();
         this.port=process.env.PORT;
         this.usuariospath='/api/usuarios';
+        this.authpath='/api/auth';
 
         //Conexiones a base de datos
         this.conexionDDMongo();
@@ -54,7 +56,7 @@ class Server{
 
     //funciones para las rutas
     routes(){
-
+        this.app.use(this.authpath,routerauth);
        this.app.use(this.usuariospath,routerusuarios);
           
     }
