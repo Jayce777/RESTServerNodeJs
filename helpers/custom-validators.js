@@ -1,6 +1,5 @@
 
-const Role=require('../models/role');
-const Usuario=require('../models/usuario');
+const {Usuario,Categoria,Role}=require('../models');
 
 const RoleExiste= async(rol='')=>{
 
@@ -24,7 +23,7 @@ const ExisteEmail=async (correo='')=>{
 };
 
 const ExisteUsuarioXId=async (id='')=>{
-
+   
     const existeid= await Usuario.findById(id);
    // console.log(existemail);    
     if(!existeid){
@@ -34,10 +33,25 @@ const ExisteUsuarioXId=async (id='')=>{
     }
 };
 
+/*
+Validadores de categorías
+*/
+const ExisteCategoriaXId=async (id='')=>{
+    
+  const existeidcategoria= await Categoria.findById(id);
+   //console.log(existeidcategoria);    
+    if(!existeidcategoria){
+        // retona un status de error
+        throw new Error(`El id ${id} no pertenece a una categoría creada`)
+
+    }
+};
+
 
 
 module.exports={
     RoleExiste,
     ExisteEmail,
-    ExisteUsuarioXId
+    ExisteUsuarioXId,
+    ExisteCategoriaXId
 }

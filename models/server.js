@@ -4,23 +4,31 @@ const express = require('express');
 const cors = require('cors');
 
 //conexión Mongo
-const{
-   DBConnectionMongo,
- //  DBConnectionPostgreSQL
-}=require('../database/config.db');
+const {
+    DBConnectionMongo,
+    //  DBConnectionPostgreSQL
+} = require('../database/config.db');
 
 //rutas
-const routerusuarios=require('../routes/usuarios.routes');
-const routerauth=require('../routes/auth.routes');
+const routerusuarios = require('../routes/usuarios.routes');
+const routerauth = require('../routes/auth.routes');
+const routectegorias = require('../routes/categorias.routes');
+const routeproductos=require('../routes/productos.routes');
 
 //Clase servidor
-class Server{
+class Server {
 
-    constructor(){
-        this.app= express();
-        this.port=process.env.PORT;
-        this.usuariospath='/api/usuarios';
-        this.authpath='/api/auth';
+    constructor() {
+        this.app = express();
+        this.port = process.env.PORT;
+
+        //paths servidor
+        this.paths = {
+            auth: '/api/auth',
+            categorias: '/api/categorias',
+            productos:'/api/productos',
+            usuarios: '/api/usuarios',
+        };
 
         //Conexiones a base de datos
         this.conexionDDMongo();
@@ -31,10 +39,10 @@ class Server{
 
         //dispara las rutas
         this.routes();
-  
+
     }
 
-    middlewarepublic(){
+    middlewarepublic() {
 
         this.app.use(cors());
 
@@ -44,27 +52,29 @@ class Server{
     }
 
     //Conexión con mongoDB Atlas
-    async conexionDDMongo(){
+    async conexionDDMongo() {
 
         await DBConnectionMongo();
 
     }
- /*   async conexionDBPostgreSQL(){
-
-      await DBConnectionPostgreSQL();
-      
-      
-    }*/
+    /*   async conexionDBPostgreSQL(){
+   
+         await DBConnectionPostgreSQL();
+         
+         
+       }*/
 
     //funciones para las rutas
-    routes(){
-        this.app.use(this.authpath,routerauth);
-       this.app.use(this.usuariospath,routerusuarios);
-          
+    routes() {
+        this.app.use(this.paths.auth, routerauth);
+        this.app.use(this.paths.categorias, routectegorias);
+        this.app.use(this.paths.productos, routeproductos);
+        this.app.use(this.paths.usuarios, routerusuarios);
+
     }
 
-    listen(){
-        
+    listen() {
+
         this.app.listen(this.port, () => {
             console.log(`REST Server esuchando en puerto: ${this.port}`);
         });
@@ -72,4 +82,4 @@ class Server{
 }
 
 
-module.exports=Server;
+module.exports = Server;
