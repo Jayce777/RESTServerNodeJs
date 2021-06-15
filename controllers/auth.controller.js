@@ -1,8 +1,9 @@
-const { response } = require("express");
+const { response, request } = require("express");
 const bcryptjs = require('bcryptjs');
 
 const Usuario = require('../models/usuario');
-const { GenerarJWT } = require("../helpers/generar-JWT");
+
+const{GenerarJWT,VerificarTokenGoogle}=require('../helpers');
 
 
 
@@ -57,7 +58,62 @@ const Login = async (req, res = response) => {
 
 };
 
+const LoginGoogle = async (req = request, res = response) => {
+
+    const { id_token } = req.body;
+
+
+    try {
+
+        const { nombre, img, correo } = await VerificarTokenGoogle(id_token);
+
+        let usuario =await Usuario.findOne({ correo });
+
+        // Si no existe un usuario con el correo enviado, crear uno nuevo
+        if (!usuario) {
+            const data = {
+                nombre,
+                correo,
+                contrasena: 'google',// La contraseña debe ir llena
+                img,
+                google: true
+            };
+            usuario = new Usuario(data);
+            console.log(usuario);
+            await usuario.save();
+        }
+
+        // Usuario activo en BDD
+
+        if (!usuario.estado) {
+
+            return res.status(401).json({
+
+                msg: 'El usuario de google no puede ser autenticado'
+            })
+        }
+
+         // generar JWT
+         const token =await GenerarJWT(usuario.id);
+
+        res.json({
+            msg: 'Sesión de google iniciada correctamente',
+           usuario,
+           token
+
+        })
+
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Id token de google inválido'
+        })
+    }
+
+
+}
+
 
 module.exports = {
-    Login
+    Login,
+    LoginGoogle
 }

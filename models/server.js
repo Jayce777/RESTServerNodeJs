@@ -2,6 +2,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+
+//conexión Mongo
 const{
    DBConnectionMongo,
  //  DBConnectionPostgreSQL
@@ -11,6 +13,7 @@ const{
 const routerusuarios=require('../routes/usuarios.routes');
 const routerauth=require('../routes/auth.routes');
 
+//Clase servidor
 class Server{
 
     constructor(){
@@ -36,7 +39,6 @@ class Server{
         this.app.use(cors());
 
         this.app.use(express.static('public'));
-
 
         this.app.use(express.json());
     }

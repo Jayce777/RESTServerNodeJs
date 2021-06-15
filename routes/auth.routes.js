@@ -1,22 +1,23 @@
 const {Router} =require('express');
 const { check } = require('express-validator');
 
-const { 
-    ExisteEmail,
-} = require('../helpers/custom-validators');
+
 const router=Router();
 
 const { ValidaCampos } = require('../middlewares/validar_campos');
 
-
-const {Login}=require('../controllers/auth.controller');
+const {Login, LoginGoogle}=require('../controllers/auth.controller');
 
 router.post('/login',[
     check('correo','El correo ingresado no es válido').isEmail(),
     check('contrasena','La contraseña es obligatoria').not().isEmpty(),
-
-  //  check('correo').custom(ExisteEmail),
     ValidaCampos
 ], Login);
+
+
+router.post('/logingoogle',[
+    check('id_token','No existe un id token').not().isEmpty(),
+    ValidaCampos
+], LoginGoogle);
 
 module.exports=router;

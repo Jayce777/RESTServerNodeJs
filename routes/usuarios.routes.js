@@ -29,6 +29,7 @@ const {
 
 router.get('/', UsuariosGet);
 
+
 router.post('/', [
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     check('contrasena', 'La contraseña debe contener mínimo 7 carateres').isLength({ min: 7 }),

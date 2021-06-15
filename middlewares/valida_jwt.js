@@ -6,7 +6,6 @@ const Usuario = require("../models/usuario");
 
 const ValidaJWT = async (req = request, res = response, next) => {
 
-
     const token = req.header('x-token');
 
     if (!token) {
@@ -17,7 +16,6 @@ const ValidaJWT = async (req = request, res = response, next) => {
         })
     }
    // console.log(token);
-
     try {
 
         const { uid } = jwt.verify(token, process.env.SECRETTOPRIVATEKEY);
