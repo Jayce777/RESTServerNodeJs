@@ -1,5 +1,5 @@
 
-const {Usuario,Categoria,Role}=require('../models');
+const {Usuario,Categoria,Role, Producto}=require('../models');
 
 const RoleExiste= async(rol='')=>{
 
@@ -47,11 +47,36 @@ const ExisteCategoriaXId=async (id='')=>{
     }
 };
 
+/*
+Validadores de productos
+*/
+const ExisteCategoriaProductoXId=async (categoria='')=>{
+    
+    const existeidcategoria= await Categoria.findById(categoria);
+     //console.log(existeidcategoria);    
+      if(!existeidcategoria){
+          // retona un status de error
+          throw new Error(`El id ${categoria} no pertenece a una categoría creada`)
+  
+      }
+  };
 
+  const ExisteProductoXId=async (id='')=>{
+    
+    const existeidproducto= await Producto.findById(id);
+     //console.log(existeidcategoria);    
+      if(!existeidproducto){
+          // retona un status de error
+          throw new Error(`El id ${id} no pertenece a un producto creado`)
+  
+      }
+  };
 
 module.exports={
     RoleExiste,
     ExisteEmail,
     ExisteUsuarioXId,
-    ExisteCategoriaXId
+    ExisteCategoriaXId,
+    ExisteCategoriaProductoXId,
+    ExisteProductoXId
 }
