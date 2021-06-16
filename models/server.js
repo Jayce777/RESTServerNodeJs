@@ -14,6 +14,7 @@ const routerusuarios = require('../routes/usuarios.routes');
 const routerauth = require('../routes/auth.routes');
 const routectegorias = require('../routes/categorias.routes');
 const routeproductos=require('../routes/productos.routes');
+const routebusqueda=require('../routes/busqueda.routes');
 
 //Clase servidor
 class Server {
@@ -25,6 +26,7 @@ class Server {
         //paths servidor
         this.paths = {
             auth: '/api/auth',
+            busqueda: '/api/busqueda',
             categorias: '/api/categorias',
             productos:'/api/productos',
             usuarios: '/api/usuarios',
@@ -67,6 +69,7 @@ class Server {
     //funciones para las rutas
     routes() {
         this.app.use(this.paths.auth, routerauth);
+        this.app.use(this.paths.busqueda, routebusqueda);
         this.app.use(this.paths.categorias, routectegorias);
         this.app.use(this.paths.productos, routeproductos);
         this.app.use(this.paths.usuarios, routerusuarios);

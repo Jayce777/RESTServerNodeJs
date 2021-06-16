@@ -10,7 +10,9 @@ const ProductosGet=async (req=request,res=response)=>{
     const queryestado={estado:true};
 
    const [total,productos]=await Promise.all([
-    Producto.countDocuments(queryestado),
+    Producto.countDocuments(queryestado)
+    .skip(Number(start))
+    .limit(Number(limit)),
     Producto.find(queryestado)
     .skip(Number(start))
     .limit(Number(limit))

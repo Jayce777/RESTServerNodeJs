@@ -10,7 +10,9 @@ const CategoriasGet=async(req=request,res=response)=>{
     const queryestado={estado:true};
 
     const [total,categorias]=await Promise.all([
-     Categoria.countDocuments(queryestado),
+     Categoria.countDocuments(queryestado)
+     .skip(Number(start))
+     .limit(Number(limit)),
      Categoria.find(queryestado)
      .skip(Number(start))
      .limit(Number(limit))
