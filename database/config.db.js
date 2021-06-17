@@ -1,61 +1,44 @@
 const mongoose= require('mongoose');
 //const { Client } = require('pg');
+const mysql=require('mysql');
+const {promisify}=require('util');
 
 
-/*const configpg={
-
-    user: process.env.USERPOSTGRE,
-    host: '',
-    database: process.env.POSTGRE_CON,
-    password: process.env.PASSPOSTGRE,
-    port: process.env.PORTPOSTGRESQL
-
-};*/
-
-const DBConnectionMongo=async()=>{
-
-    try {
-
-       await mongoose.connect(process.env.MONGODB_CON,
-        {
-            useNewUrlParser: true,
-             useUnifiedTopology: true,
-             useCreateIndex:true,
-             useFindAndModify:false
-        });
-
-        console.log('Conectado a DB!');
-        
-    } catch (error) {
-        console.log({error});
-        throw new Error('Error en DB');
-    }
-
+const database={
+    host:process.env.MYSQL_CON,
+    user:process.env.MYSQL_USER,
+    password:'',
+    port:process.env.MYSQL_PORT,
+    database:process.env.MYSQL_DB
 };
 
 
 
-/*const DBConnectionPostgreSQL=async()=>{
+const DBConnectionMySQL=async()=>{
 
     try {
+        //crea una conexión a la BDD con los parámetros de conexión
+        const db=mysql.createPool(database);
+        //utilizar conexión
+        db.getConnection((err, conexion) => {
 
-         const client = new Client(configpg);
-         await client.connect();
-         
-          console.log('Conectado a DB PostgreSQL!');
-        
-            
+            if (conexion)
+                conexion.release();
+                 
+        });
+
+        db.query=await promisify(db.query);
+        console.log('conectado a DB MySQL');
+        return db;
+
     } catch (error) {
         console.log({error});
-       // throw new Error('Error en DB PostgreSQL');
-           
+        throw new Error('Error en DB MySQL');
     }
-
-};*/
+};
 
 
 
 module.exports={
-    DBConnectionMongo,
-  //  DBConnectionPostgreSQL
+    DBConnectionMySQL
 }

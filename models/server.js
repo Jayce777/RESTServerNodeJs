@@ -3,19 +3,16 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-//conexión Mongo
+//conexiones
 const {
-    DBConnectionMongo,
-    //  DBConnectionPostgreSQL
+    DBConnectionMySQL
+    
 } = require('../database/config.db');
 
 //rutas
-const routerusuarios = require('../routes/usuarios.routes');
-const routerauth = require('../routes/auth.routes');
-const routectegorias = require('../routes/categorias.routes');
-const routeproductos=require('../routes/productos.routes');
-const routebusqueda=require('../routes/busqueda.routes');
 
+
+const routerolesmysql=require('../routes/rolmysql.routes');
 //Clase servidor
 class Server {
 
@@ -24,17 +21,14 @@ class Server {
         this.port = process.env.PORT;
 
         //paths servidor
-        this.paths = {
-            auth: '/api/auth',
-            busqueda: '/api/busqueda',
-            categorias: '/api/categorias',
-            productos:'/api/productos',
-            usuarios: '/api/usuarios',
+        
+        this.pathsMYSQL = {
+            rol:'/api/rolmysql'
         };
 
-        //Conexiones a base de datos
-        this.conexionDDMongo();
+      
         //this.conexionDBPostgreSQL();
+        this.conexionMYSQL();
 
         //Middlewares
         this.middlewarepublic();
@@ -53,11 +47,10 @@ class Server {
         this.app.use(express.json());
     }
 
-    //Conexión con mongoDB Atlas
-    async conexionDDMongo() {
+   
+    async conexionMYSQL(){
 
-        await DBConnectionMongo();
-
+        await DBConnectionMySQL();
     }
     /*   async conexionDBPostgreSQL(){
    
@@ -67,13 +60,9 @@ class Server {
        }*/
 
     //funciones para las rutas
+   
     routes() {
-        this.app.use(this.paths.auth, routerauth);
-        this.app.use(this.paths.busqueda, routebusqueda);
-        this.app.use(this.paths.categorias, routectegorias);
-        this.app.use(this.paths.productos, routeproductos);
-        this.app.use(this.paths.usuarios, routerusuarios);
-
+        this.app.use(this.pathsMYSQL.rol, routerolesmysql);
     }
 
     listen() {
