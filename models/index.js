@@ -1,8 +1,14 @@
 
 
-const Server=require('./server');
-
+const Categoria=require('./categoria');
+const Producto=require('./producto');
+const Role=require('./role');
+const Usuario=require('./usuario');
 
 module.exports={
-    Server
+
+    Categoria,
+    Role,
+    Usuario,
+    Producto
 }
