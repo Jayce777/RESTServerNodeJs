@@ -7,9 +7,10 @@ const { request, response, json } = require('express');
 const { SubirArchivo } = require('../helpers');
 
 const {Usuario,Producto}=require('../models');
-const { model } = require('mongoose');
 
-const pathnoimage=path.join(__dirname,'../assets/no-image.jpg');
+//const pathnoimage=path.join(__dirname,'../assets/no-image.jpg');
+//const pathnoimage='http://localhost:8087/assets/no-image.jpg';
+const pathnoimage=process.env.PATH_APP_PROD+ 'assets/no-image.jpg';
 
 const ObtenerArchivo=async(req,res=response)=>{
 
@@ -58,7 +59,7 @@ const ObtenerArchivo=async(req,res=response)=>{
         }
 
        // res.json({archive:pathnoimage});
-         res.json({archive:'https://rest-server07.herokuapp.com'+pathnoimage});
+         res.json({archive:pathnoimage});
 
 
     
@@ -187,6 +188,7 @@ const ActualizarArchivoImgCloudinary=async(req = request, res = response) =>{
           const nombrecloudinary=nombreimgarr[nombreimgarr.length-1];
           const [id_public]=nombrecloudinary.split('.');
            cloudinary.uploader.destroy(id_public);
+           cloudinary.up
         }
 
         const {tempFilePath}=req.files.archivo;
