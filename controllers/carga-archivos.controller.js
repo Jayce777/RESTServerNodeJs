@@ -7,6 +7,7 @@ const { request, response, json } = require('express');
 const { SubirArchivo } = require('../helpers');
 
 const {Usuario,Producto}=require('../models');
+const { model } = require('mongoose');
 
 const pathnoimage=path.join(__dirname,'../assets/no-image.jpg');
 
@@ -44,15 +45,19 @@ const ObtenerArchivo=async(req,res=response)=>{
         
         if(modelo.img){
 
-            const pathimagen=path.join(__dirname,'../uploads',coleccion,modelo.img);
-            if(fs.existsSync(pathimagen)){
+           // const pathimagen=path.join(__dirname,'../uploads',coleccion,modelo.img);
+        //    if(fs.existsSync(pathimagen)){
 
-               return res.sendFile(pathimagen);
-            }
+          //     return res.sendFile(pathimagen);
+            //}
+            console.log(modelo.img);
+
+            return res.json({archive:modelo.img});
 
         }
 
-         res.sendFile(pathnoimage);
+        res.json({archive:pathnoimage});
+        // res.sendFile(pathnoimage);
 
 
     
