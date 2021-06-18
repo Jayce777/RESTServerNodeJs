@@ -52,13 +52,13 @@ const ObtenerArchivo=async(req,res=response)=>{
             //}
             console.log(modelo.img);
 
-            return res.sendFile(modelo.img);
+            return  res.json({archive:modelo.img});
 
 
         }
 
        // res.json({archive:pathnoimage});
-         res.sendFile(pathnoimage);
+         res.json({archive:'https://rest-server07.herokuapp.com'+pathnoimage});
 
 
     
