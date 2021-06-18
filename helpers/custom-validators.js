@@ -72,11 +72,31 @@ const ExisteCategoriaProductoXId=async (categoria='')=>{
       }
   };
 
+
+/*
+Validador de colecciones
+*/
+
+const ColeccionPermitida=async(coleccion,colecciones=[])=>{
+
+    const incluida=colecciones.includes(coleccion);
+
+    if(!incluida){
+
+        throw new Error(`La coleccion ${coleccion} no existe, permitidas: ${colecciones}`);
+        
+    }
+    return true;
+
+};
+
+
 module.exports={
     RoleExiste,
     ExisteEmail,
     ExisteUsuarioXId,
     ExisteCategoriaXId,
     ExisteCategoriaProductoXId,
-    ExisteProductoXId
+    ExisteProductoXId,
+    ColeccionPermitida
 }
