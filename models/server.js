@@ -2,6 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const fileUpload=require('express-fileupload');
 
 //conexión Mongo
 const {
@@ -15,6 +16,7 @@ const routerauth = require('../routes/auth.routes');
 const routectegorias = require('../routes/categorias.routes');
 const routeproductos=require('../routes/productos.routes');
 const routebusqueda=require('../routes/busqueda.routes');
+const routecargararchivo=require('../routes/carga-archivos.routes');
 
 //Clase servidor
 class Server {
@@ -27,6 +29,7 @@ class Server {
         this.paths = {
             auth: '/api/auth',
             busqueda: '/api/busqueda',
+            cargarchivo:'/api/cargararchivo',
             categorias: '/api/categorias',
             productos:'/api/productos',
             usuarios: '/api/usuarios',
@@ -51,6 +54,14 @@ class Server {
         this.app.use(express.static('public'));
 
         this.app.use(express.json());
+
+        //carga de archivos
+
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath:true
+        }));
     }
 
     //Conexión con mongoDB Atlas
@@ -70,6 +81,7 @@ class Server {
     routes() {
         this.app.use(this.paths.auth, routerauth);
         this.app.use(this.paths.busqueda, routebusqueda);
+        this.app.use(this.paths.cargarchivo, routecargararchivo);
         this.app.use(this.paths.categorias, routectegorias);
         this.app.use(this.paths.productos, routeproductos);
         this.app.use(this.paths.usuarios, routerusuarios);
