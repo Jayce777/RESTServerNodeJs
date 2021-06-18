@@ -52,16 +52,18 @@ const ObtenerArchivo=async(req,res=response)=>{
             //}
             console.log(modelo.img);
 
-            return res.json({archive:modelo.img});
+            return res.sendFile(modelo.img);
+
 
         }
 
-        res.json({archive:pathnoimage});
-        // res.sendFile(pathnoimage);
+       // res.json({archive:pathnoimage});
+         res.sendFile(pathnoimage);
 
 
     
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             msg:'Se produjo un error al actualizar la imagen, conumíquese con el Administrador'
         })
