@@ -10,7 +10,8 @@ const {Usuario,Producto}=require('../models');
 
 //const pathnoimage=path.join(__dirname,'../assets/no-image.jpg');
 //const pathnoimage='http://localhost:8087/assets/no-image.jpg';
-const pathnoimage=process.env.PATH_APP_PROD+ 'assets/no-image.jpg';
+//const pathnoimage=process.env.PATH_APP_PROD+ 'assets/no-image.jpg';
+const pathnoimage=process.env.PATH_NOIMAGE;
 
 const ObtenerArchivo=async(req,res=response)=>{
 
@@ -57,8 +58,6 @@ const ObtenerArchivo=async(req,res=response)=>{
 
 
         }
-
-       // res.json({archive:pathnoimage});
          res.json({archive:pathnoimage});
 
 
