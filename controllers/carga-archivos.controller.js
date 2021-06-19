@@ -8,11 +8,6 @@ const { SubirArchivo } = require('../helpers');
 
 const {Usuario,Producto}=require('../models');
 
-//const pathnoimage=path.join(__dirname,'../assets/no-image.jpg');
-//const pathnoimage='http://localhost:8087/assets/no-image.jpg';
-//const pathnoimage=process.env.PATH_APP_PROD+ 'assets/no-image.jpg';
-const pathnoimage=process.env.PATH_NOIMAGE;
-
 const ObtenerArchivo=async(req,res=response)=>{
 
     const{coleccion,id}=req.params;
@@ -46,22 +41,16 @@ const ObtenerArchivo=async(req,res=response)=>{
     try {
         
         if(modelo.img){
-
-           // const pathimagen=path.join(__dirname,'../uploads',coleccion,modelo.img);
-        //    if(fs.existsSync(pathimagen)){
-
-          //     return res.sendFile(pathimagen);
-            //}
-            console.log(modelo.img);
-
             return  res.json({archive:modelo.img});
-
-
         }
-         res.json({archive:pathnoimage});
 
+        cloudinary.api.resource('no-image_b1bhmy',(err,resp)=>{
+            const {secure_url}=resp;
+            if(!err){
+                res.json({archive:secure_url});
+            }
+        });
 
-    
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -75,7 +64,7 @@ const ObtenerArchivo=async(req,res=response)=>{
 
 const CargarArchivo = async (req = request, res = response) => {
 
-    //const extensiones = ['txt'];
+ 
     await SubirArchivo(req.files,undefined,'imgs')
     .then(respuesta=> res.json({nombre:respuesta}))
     .catch(error=>res.status(400).json({msg:error}))
@@ -187,7 +176,7 @@ const ActualizarArchivoImgCloudinary=async(req = request, res = response) =>{
           const nombrecloudinary=nombreimgarr[nombreimgarr.length-1];
           const [id_public]=nombrecloudinary.split('.');
            cloudinary.uploader.destroy(id_public);
-           cloudinary.up
+          // cloudinary.up
         }
 
         const {tempFilePath}=req.files.archivo;
