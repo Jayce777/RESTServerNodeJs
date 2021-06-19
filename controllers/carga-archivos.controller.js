@@ -64,10 +64,25 @@ const ObtenerArchivo=async(req,res=response)=>{
 
 const CargarArchivo = async (req = request, res = response) => {
 
- 
-    await SubirArchivo(req.files,undefined,'imgs')
+    try {
+        const {tempFilePath}=req.files.archivo;
+        const {secure_url}=await cloudinary.uploader.upload(tempFilePath);
+    
+        res.json({
+            msg:'Archivo subido correctamente',
+            secure_url
+        })
+    
+    } catch (error) {
+
+        res.status(400).json({
+            msg:`Archivo no permitido`
+       })
+    }
+   
+    /*await SubirArchivo(req.files,undefined,'imgs')
     .then(respuesta=> res.json({nombre:respuesta}))
-    .catch(error=>res.status(400).json({msg:error}))
+    .catch(error=>res.status(400).json({msg:error}))*/
    
 };
 
